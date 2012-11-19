@@ -184,9 +184,28 @@ class PaymentDatatrans extends IsotopePayment
 		$objTemplate->slabel = specialchars($GLOBALS['TL_LANG']['MSC']['pay_with_redirect'][2]);
 
 		return $objTemplate->parse();
-	}
-	
-	
+		}
+
+		/*
+		// Security signature (see Security Level 2)
+		$arrParams['sign'] = hash_hmac('md5', $arrParams['merchantId'].$arrParams['amount'].$arrParams['currency'].$arrParams['refno'], convertHexStringToByteString($this->datatrans_sign));
+
+		$objTemplate = new FrontendTemplate('iso_payment_datatrans');
+		$objTemplate->id = $this->id;
+		$objTemplate->action = ('https://' . ($this->debug ? 'pilot' : 'payment') . '.datatrans.biz/upp/jsp/upStart.jsp');
+		$objTemplate->params = $arrParams;
+		$objTemplate->headline = $GLOBALS['TL_LANG']['MSC']['pay_with_redirect'][0];
+		$objTemplate->message = $GLOBALS['TL_LANG']['MSC']['pay_with_redirect'][1];
+		$objTemplate->slabel = specialchars($GLOBALS['TL_LANG']['MSC']['pay_with_redirect'][2]);
+
+		return $objTemplate->parse();
+		}
+		private function convertHexStringToByteString($hexString) {
+			$result = "";
+			for($i=0;$i<strlen($hexString);$i += 2) $result .= chr(hexdec($hexString.substr(i,2)));
+			return $result;
+		}
+		/*
 	/**
 	 * Validate array of post parameter agains required values
 	 * @param array
